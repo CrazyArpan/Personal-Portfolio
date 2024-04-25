@@ -19,6 +19,7 @@
         background-color: rgb(0, 0, 33);
         color: white;
         font-family: "Poppins", sans-serif;
+        overflow: hidden;
       }
       nav {
         position: fixed;
@@ -126,7 +127,6 @@
         white-space: nowrap;
       }
       .Thirdsection {
-        white-space: nowrap;
         display: block;
         text-align: center;
         height: 650px;
@@ -272,7 +272,7 @@
         border: 0;
         height: 1px;
         background-color: #9c97f1;
-        margin: 40px 84px; /* Adjust margin as needed */
+        margin: 40px 84px; 
       }
       .Thirdsection {
         margin-top: 0;
@@ -297,8 +297,95 @@
         width: 20px;
         font-weight: bold;
       }
-      .past{
+      .past {
         color: #07043a;
+      }
+
+      .project-cards {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .project-card {
+        width: 300px;
+        height: 200px;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        perspective: 1000px; 
+      }
+
+      .project-inner {
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s; 
+        transform-style: preserve-3d;
+      }
+
+      .project-card:hover .project-inner {
+        transform: rotateY(180deg); 
+      }
+
+      .project-front,
+      .project-back {
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        border-radius: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .project-front {
+        background-color: #35015d;
+        color: white;
+        transform: rotateY(0deg);
+      }
+
+      .project-back {
+        background-color: #450378;
+        transform: rotateY(180deg);
+      }
+
+      .project-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .project-heading {
+        font-size: 16px;
+        font-weight: bold;
+        color: rgb(254, 253, 254);
+        margin-top: auto;
+        margin-bottom: auto;
+        text-align: center;
+      }
+
+      .project-description {
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        text-align: center;
+      }
+
+      .project-card:hover .project-description {
+        opacity: 1;
+      }
+
+      .active {
+        color: rgb(153, 153, 226);
+        font-size: 1.02rem;
       }
     </style>
   </head>
@@ -391,11 +478,52 @@
         <div id="projectsSection" class="projects">
           <h1 class="Past">Past Projects</h1>
           <br />
-          <div class="list">
-            <ol>
-              <li>PASSWORD MANAGER USING REACT YEAR - 2023</li>
-              <li>ONLINE BUS TICKET BOOKING SERVICE YEAR - 2022</li>
-            </ol>
+          <div class="project-cards">
+            <div class="project-card">
+              <div class="project-inner">
+                <div class="project-front">
+                  <div class="project-title">Project 1</div>
+                  <div class="project-heading">
+                    ONLINE BUS TICKET RESERVATION SYSTEM
+                  </div>
+                </div>
+                <div class="project-back">
+                  <div class="project-description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-inner">
+                <div class="project-front">
+                  <div class="project-title">Project 2</div>
+                  <div class="project-heading">PASSWORD MANAGER</div>
+                </div>
+                <div class="project-back">
+                  <div class="project-description">
+                    Sed do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <div class="project-inner">
+                <div class="project-front">
+                  <div class="project-title">Project 3</div>
+                  <div class="project-heading">PERSONAL PORTFOLIO WEBSITE</div>
+                </div>
+                <div class="project-back">
+                  <div class="project-description">
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -440,6 +568,7 @@
         .addEventListener("click", function (event) {
           event.preventDefault();
           scrollToTop();
+          setActiveLink(this);
         });
 
       function scrollToTop() {
@@ -454,11 +583,12 @@
         .addEventListener("click", function (event) {
           event.preventDefault();
           const projectsSection = document.getElementById("projectsSection");
-          const sectionPosition = projectsSection.offsetTop - 60; // Adjusted by subtracting the height of the fixed navigation bar
+          const sectionPosition = projectsSection.offsetTop - 60; 
           window.scrollTo({
             top: sectionPosition,
             behavior: "smooth",
           });
+          setActiveLink(this);
         });
 
       document
@@ -466,6 +596,7 @@
         .addEventListener("click", function (event) {
           event.preventDefault();
           scrollToSection("secondSection");
+          setActiveLink(this);
         });
 
       document
@@ -475,6 +606,7 @@
           document.getElementById("contactSection").scrollIntoView({
             behavior: "smooth",
           });
+          setActiveLink(this);
         });
 
       function scrollToSection(sectionId) {
@@ -497,6 +629,12 @@
           var email = document.getElementById("email").value;
           var message = document.getElementById("message").value;
         });
+
+      function setActiveLink(link) {
+        const navLinks = document.querySelectorAll("nav ul li a");
+        navLinks.forEach((navLink) => navLink.classList.remove("active"));
+        link.classList.add("active");
+      }
     </script>
   </body>
 </html>
